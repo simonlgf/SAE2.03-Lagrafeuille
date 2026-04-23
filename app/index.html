@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./component/Movie/style.css" />
   </head>
 
   <body>
@@ -14,11 +15,21 @@
 
     <script type="module">
       import { NavBar } from "./component/NavBar/script.js";
+      import { Movie } from "./component/Movie/script.js";
+      import { DataMovie } from "./data/dataMovie.js";
 
       // Controleur
       // Rappel, écrire window.C plutôt que let C est nécessaire pour tester depuis la console du navigateur
       // Une fois l'application terminée, on pourrait remettre let C.
       window.C = {};
+
+      /**
+       * Récupère et affiche la liste des films disponibles
+       */
+      C.handlerHome = async function () {
+        let movies = await DataMovie.requestMovies();
+        V.renderMovies(movies);
+      };
 
       C.handlerAbout = function () {
         alert(
@@ -27,7 +38,8 @@
       };
 
       C.start = function () {
-        V.renderNavBar("C.handlerAbout()");
+        V.renderNavBar("C.handlerHome()");
+        C.handlerHome(); // Affiche les films au démarrage
       };
 
       // Vue (contient tout ce qui est relatif à l'affichage)
@@ -40,13 +52,38 @@
        * Elle sélectionne l'élément HTML avec l'ID "header" et y insère le contenu
        * formaté par le composant NavBar.
        */
-      V.renderNavBar = function (hAbout) {
+      V.renderNavBar = function (hHome) {
         let header = document.querySelector("#header");
-        header.innerHTML = NavBar.format(hAbout);
+        header.innerHTML = NavBar.format(hHome);
+      };
+
+      /**
+       * V.renderMovies
+       *
+       * Affiche la liste des films dans la section #content
+       * Si aucun film n'est disponible, affiche un message
+       */
+      V.renderMovies = function (movies) {
+        let content = document.querySelector("#content");
+        
+        if (!movies || movies.length === 0) {
+          content.innerHTML = "<p class='empty-message'>Aucun film disponible pour le moment.</p>";
+          return;
+        }
+
+        let moviesHtml = Movie.format(movies);
+        
+        // Crée un conteneur avec une grille pour afficher les films
+        let html = `
+          <div class="movies-container">
+            ${moviesHtml}
+          </div>
+        `;
+        
+        content.innerHTML = html;
       };
 
       C.start(); // Démarre l'application
     </script>
   </body>
 </html>
-<script type="module"></script>

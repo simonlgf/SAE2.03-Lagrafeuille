@@ -21,7 +21,16 @@
 require("model.php");
 
 
+/**
+ * Récupère la liste des films disponibles
+ * Prend en compte un paramètre 'age' optionnel pour filtrer les films
+ * @return array|false
+ */
 function readMoviesController(){
-    $movies = getAllMovies();
+    // Récupère le paramètre age s'il existe
+    $minAge = isset($_REQUEST['age']) ? intval($_REQUEST['age']) : 0;
+    
+    // Appelle la fonction du modèle en passant l'âge minimum
+    $movies = getAllMovies($minAge);
     return $movies;
 }
