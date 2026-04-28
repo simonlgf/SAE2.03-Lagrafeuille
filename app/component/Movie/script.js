@@ -10,15 +10,11 @@ let Movie = {};
  * @returns {string} HTML formaté
  */
 Movie.format = function (films, handlerClick = "") {
-  // Si ce n'est pas un tableau, on le convertit en tableau
-  if (!Array.isArray(films)) {
-    films = [films];
-  }
 
   let html = "";
 
   // Parcourt tous les films et crée le HTML pour chacun
-  films.forEach(film => {
+  for (let film of films) {
     let filmHtml = template;
     let imagePath = "../server/images/" + film.image;
     // Remplace tous les placeholders en une seule passe
@@ -26,7 +22,7 @@ Movie.format = function (films, handlerClick = "") {
     filmHtml = filmHtml.replaceAll("{{image}}", imagePath);
     filmHtml = filmHtml.replaceAll("{{handlerClick}}", handlerClick);
     html += filmHtml;
-  });
+  }
 
   return html;
 };
