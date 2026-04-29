@@ -1,0 +1,49 @@
+/* TODO ITÉRATION 4 : Styliser le composant MovieCategory
+   
+   Vous devez créer les styles CSS pour :
+   
+   1. .category-section : Conteneur pour chaque catégorie
+      - Ajouter du margin/padding pour l'espacement
+      - Ajouter une bordure ou une ombre pour la délimitation
+      - Ajouter un background-color pour le contraste
+   
+   2. .category-title : Titre de la catégorie (h2)
+      - Styliser le texte (font-size, color, font-weight)
+      - Ajouter du padding
+      - Ajouter du margin
+      - Possibilité d'ajouter une border-bottom pour séparer du contenu
+   
+   3. .category-movies : Conteneur des films
+      - Créer une grille pour afficher les films côte à côte
+      - Utiliser CSS Grid ou Flexbox
+      - Gérer le gap entre les films
+      - Adapter le nombre de colonnes en fonction de la largeur de l'écran (responsive)
+   
+   Indice : Vous pouvez vous inspirer des styles existants pour les films
+   (consultez ./css/base.css ou ./component/Movie/style.css)
+   
+
+   */
+
+
+   
+.category-section {
+  margin-bottom: 40px;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.category-title {
+  font-size: 2.5rem;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 10px;
+  font-family: 'Arial', sans-serif;
+  font-weight: 700;
+}
+
+.category-movies {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+}
+

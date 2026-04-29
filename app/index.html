@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/base.css" />
     <link rel="stylesheet" href="./component/Movie/style.css" />
     <link rel="stylesheet" href="./component/MovieDetail/style.css" />
+    <link rel="stylesheet" href="./component/MovieCategory/style.css" />
   </head>
 
   <body>
@@ -30,8 +31,24 @@
        */
       C.handlerHome = async function () {
         let movies = await DataMovie.requestMovies();
-        V.renderMovies(movies);
+        let moviesByCategory = C.groupMoviesByCategory(movies);
+        V.renderMoviesByCategory(moviesByCategory);
       };
+
+      C.groupMoviesByCategory = function(movies){
+          let tab_group = {};
+          for(let movie of movies){
+            let category = movie.category || 'Sans catégorie';
+            if(!tab_group[category]) {
+              tab_group[category] = [];
+            }
+            tab_group[category].push(movie);
+          }
+          return tab_group;
+        }
+
+        
+
 
       // TODO ITÉRATION 3 : Ajouter la fonction C.handlerDetail(movieId)
       // Cette fonction doit :
@@ -104,6 +121,32 @@
         
         content.innerHTML = html;
       };
+
+
+
+            V.renderMoviesByCategory = function(moviesbyCat)
+        {
+          let section = document.querySelector("#content")
+          let html = "";
+          for(let category in moviesbyCat)
+        {
+          let movies = moviesbyCat[category];
+          let moviesHtml = Movie.format(movies);
+          html += `
+          <section class="category-section">
+            <h2 class="category-title">${category}</h2>
+            <div class="category-movies">
+              ${moviesHtml}
+            </div>
+          </section>
+          `;
+         section.innerHTML = html;
+        }
+        }
+
+
+
+
 
       // TODO ITÉRATION 3 : Ajouter la fonction V.renderMovieDetail(movieDetails)
       // Cette fonction doit afficher les détails complets du film dans la section #content

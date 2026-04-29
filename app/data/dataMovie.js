@@ -7,6 +7,9 @@ DataMovie.requestMovies = async function(){
     // fetch permet d'envoyer une requête HTTP à l'URL spécifiée. 
     // L'URL est construite en concaténant HOST_URL à "/server/script.php?todo=" et la valeur de la variable. 
     // L'URL finale dépend de la valeur de HOST_URL et du paramètre.
+    // TODO ITÉRATION 4 : Après modification du serveur, les films incluront maintenant un champ 'category'
+    // qui contient le nom de la catégorie auquel appartient chaque film.
+    // Vous pouvez utiliser ce champ pour grouper les films par catégorie côté client
     let answer = await fetch(HOST_URL + "/server/script.php?todo=readmovies");
     // answer est la réponse du serveur à la requête fetch.
     // On utilise ensuite la méthode json() pour extraire de cette réponse les données au format JSON.

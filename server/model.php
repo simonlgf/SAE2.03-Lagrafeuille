@@ -22,8 +22,16 @@ define("DBPWD", "lagrafeuille4");
 function getAllMovies(){
     // Connexion à la base de données
     $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
-    // Requête SQL pour récupérer le menu avec des paramètres
-    $sql = "select id, name, image from Movie";
+    
+    // TODO ITÉRATION 4 : Modifier la requête SQL pour inclure le nom de la catégorie
+    // Pour le moment, on ne récupère que id, name, image
+    // Il faut ajouter le nom de la catégorie pour pouvoir grouper les films par catégorie côté client
+    // 
+    // Indice : Utiliser une LEFT JOIN avec la table Category sur Movie.id_category = Category.id
+    // Vous devez aussi donner un alias au nom de la catégorie (par exemple 'category')
+    // 
+    // Exemple de structure attendue : id, name, image, category
+    $sql = "select Movie.id, Movie.name, Movie.image, Category.name as category from Movie LEFT JOIN Category ON Movie.id_category = Category.id";
     // Prépare la requête SQL
     $stmt = $cnx->prepare($sql);
     // Exécute la requête SQL
@@ -72,8 +80,6 @@ function getMovieDetail($movieId) {
     $stmt->execute();
     $res = $stmt->fetch(PDO::FETCH_OBJ);
     return $res;
-
-
     // TODO : Implémenter cette fonction
     // 1. Connexion à la BDD
     // 2. Préparer la requête SQL SELECT * FROM Movie WHERE id = :id

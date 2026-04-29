@@ -116,7 +116,7 @@
   background-color: var(--color-primary-dark, #0056b3);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .movie-detail__container {
     grid-template-columns: 1fr;
     gap: 1.5rem;

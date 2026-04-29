@@ -1,0 +1,19 @@
+<!-- TODO ITÉRATION 4 : Créer le template HTML pour le composant MovieCategory
+     
+     Ce template doit afficher :
+     1. Un conteneur de section pour chaque catégorie (avec la classe "category-section")
+     2. Un titre de catégorie (balise h2 avec la classe "category-title")
+     3. Un conteneur pour la liste des films (avec la classe "category-movies")
+     4. Les films seront insérés par le composant JavaScript (via {{movies}})
+     
+     Placeholders à utiliser :
+     - {{categoryName}} : sera remplacé par le nom de la catégorie
+     - {{movies}} : sera remplacé par le HTML des films formatés par Movie.format()
+-->
+
+<section class="category-section">
+  <h2 class="category-title">{{categoryName}}</h2>
+  <div class="category-movies">
+    {{movies}}
+  </div>
+</section>
