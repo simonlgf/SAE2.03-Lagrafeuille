@@ -68,6 +68,13 @@ switch($todo){
       $data = addMovieController();
       break;
 
+    // TODO ITÉRATION 3 : Ajouter le cas pour 'readMovieDetail'
+    // Ce cas doit appeler readMovieDetailController()
+    // La requête HTTP aura la forme : ?todo=readMovieDetail&id=X
+    case 'readmoviedetail':
+      $data = readMovieDetailController();
+      break;
+
     default:
       echo json_encode('[error] Unknown todo value');
       http_response_code(400);

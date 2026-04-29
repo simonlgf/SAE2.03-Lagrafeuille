@@ -24,7 +24,7 @@ require("model.php");
 
 function readMoviesController(){
     // Récupère le paramètre age s'il existe
-    $minAge = isset($_REQUEST['age']) ? intval($_REQUEST['age']) : 0;
+    $minAge = isset($_REQUEST['age']);
     
     // Appelle la fonction du modèle en passant l'âge minimum
     $movies = getAllMovies($minAge);
@@ -41,11 +41,33 @@ function addMovieController(){
   $image = $_REQUEST['image'];
   $trailer = $_REQUEST['trailer'];
   $min_age = $_REQUEST['min_age'];
-  $ok = addMovie($name, $year, $length, $description, $director, $id_category, $image, $trailer, $min_age);
-  if ($ok!=0){
+  $valide = addMovie($name, $year, $length, $description, $director, $id_category, $image, $trailer, $min_age);
+  if ($valide!=0){
     return "Le film a été ajouté avec succès";
   }
   else{
     return false;
   }
+}
+
+// TODO ITÉRATION 3 : Ajouter la fonction readMovieDetailController()
+// Cette fonction doit :
+// 1. Récupérer le paramètre 'id' depuis la requête HTTP ($_REQUEST['id'])
+// 2. Vérifier que l'ID est présent et valide (entier positif)
+// 3. Appeler la fonction getMovieDetail($id) du modèle
+// 4. Retourner les détails du film
+function readMovieDetailController(){
+  $id_bool = isset($_REQUEST['id']);
+  if (!$id_bool || $_REQUEST['id'] <= 0 || !is_numeric($_REQUEST['id'])){
+    return false;
+  }
+  else{
+    return getMovieDetail($_REQUEST['id']);
+  }
+  
+
+    // TODO : Implémenter cette fonction
+    // Récupérer l'ID du film depuis les paramètres de la requête
+    // Vérifier que l'ID existe
+    // Appeler getMovieDetail($id) et retourner le résultat
 }

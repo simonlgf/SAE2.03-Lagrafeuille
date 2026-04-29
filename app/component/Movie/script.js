@@ -20,6 +20,15 @@ Movie.format = function (films, handlerClick = "") {
     // Remplace tous les placeholders en une seule passe
     filmHtml = filmHtml.replaceAll("{{title}}", film.name);
     filmHtml = filmHtml.replaceAll("{{image}}", imagePath);
+
+    // TODO ITÉRATION 3 : Ajouter l'ID du film dans le handler onclick
+    // Chaque film doit être cliquable et passer son ID à la fonction C.handlerDetail(X)
+    // Formater le handlerClick avec l'ID du film : onclick="C.handlerDetail(X)"
+    // où X est l'identifiant du film (film.id)
+
+    handlerClick = `onclick="C.handlerDetail(${film.id})"`;
+
+
     filmHtml = filmHtml.replaceAll("{{handlerClick}}", handlerClick);
     html += filmHtml;
   }

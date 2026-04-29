@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/base.css" />
     <link rel="stylesheet" href="./component/Movie/style.css" />
+    <link rel="stylesheet" href="./component/MovieDetail/style.css" />
   </head>
 
   <body>
@@ -17,6 +18,7 @@
       import { NavBar } from "./component/NavBar/script.js";
       import { Movie } from "./component/Movie/script.js";
       import { DataMovie } from "./data/dataMovie.js";
+      import { MovieDetail } from "./component/MovieDetail/script.js";
 
       // Controleur
       // Rappel, écrire window.C plutôt que let C est nécessaire pour tester depuis la console du navigateur
@@ -31,6 +33,15 @@
         V.renderMovies(movies);
       };
 
+      // TODO ITÉRATION 3 : Ajouter la fonction C.handlerDetail(movieId)
+      // Cette fonction doit :
+      // 1. Récupérer les détails du film via DataMovie.requestMovieDetails(movieId)
+      // 2. Afficher les détails du film via V.renderMovieDetail(movieDetails)
+      C.handlerDetail = async function (movieId) {
+        let movieDetails = await DataMovie.requestMovieDetails(movieId);
+        V.renderMovieDetail(movieDetails);
+      };
+
       C.handlerAbout = function () {
         alert(
           "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !"
@@ -38,7 +49,7 @@
       };
 
       C.start = function () {
-        V.renderNavBar("C.handlerHome()");
+        V.renderNavBar("C.handlerHome()", "C.handlerAbout()");
         C.handlerHome(); // Affiche les films au démarrage
       };
 
@@ -52,9 +63,9 @@
        * Elle sélectionne l'élément HTML avec l'ID "header" et y insère le contenu
        * formaté par le composant NavBar.
        */
-      V.renderNavBar = function (hHome) {
+      V.renderNavBar = function (hHome, hAbout) {
         let header = document.querySelector("#header");
-        header.innerHTML = NavBar.format(hHome);
+        header.innerHTML = NavBar.format(hAbout, hHome);
       };
 
       /**
@@ -71,7 +82,18 @@
           return;
         }
 
+        // TODO ITÉRATION 3 : Passer une fonction handler qui inclut l'ID du film
+        // Chaque film doit être cliquable et appeler C.handlerDetail(ID_DU_FILM)
+        // Movie.format() reçoit un second paramètre handlerClick
+        // Ce paramètre doit contenir la fonction onclick avec l'ID du film
+        C.handlerDetailClick = function (movieId){
+          return `onclick="C.handlerDetail(${movieId})"`;
+        }
+        
+        
         let moviesHtml = Movie.format(movies);
+
+
         
         // Crée un conteneur avec une grille pour afficher les films
         let html = `
@@ -81,6 +103,21 @@
         `;
         
         content.innerHTML = html;
+      };
+
+      // TODO ITÉRATION 3 : Ajouter la fonction V.renderMovieDetail(movieDetails)
+      // Cette fonction doit afficher les détails complets du film dans la section #content
+      // Afficher : titre, affiche, description, réalisateur, année, catégorie, restrictions d'âge, et trailer
+      // Le trailer doit être affiché via un iframe (https://www.youtube.com/embed/TRAILER_ID)
+      V.renderMovieDetail = function (movieDetail) {
+        let section = document.querySelector("#content");
+        let movieDetailHtml = MovieDetail.format(movieDetail);
+        let html = `
+          <div class="movie-detail-container">
+            ${movieDetailHtml}
+          </div>
+        `;
+        section.innerHTML = html;
       };
 
       C.start(); // Démarre l'application

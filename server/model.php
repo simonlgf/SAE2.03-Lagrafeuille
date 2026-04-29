@@ -55,3 +55,29 @@ function addMovie($name, $year, $length, $description, $director, $id_category, 
         return false;
     }
 }
+
+// TODO ITÉRATION 3 : Ajouter une fonction getMovieDetail($movieId)
+// Cette fonction doit retourner TOUS les détails d'un film basé sur son ID :
+// - id, name (titre), year (année), length (durée), description (synopsis), 
+// - director (réalisateur), id_category (ID de la catégorie), 
+// - image (affiche), trailer (URL du trailer), min_age (restriction d'âge)
+// La requête SQL doit chercher le film avec l'ID spécifié
+// Exemple : SELECT * FROM Movie WHERE id = :id
+function getMovieDetail($movieId) {
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+
+    $sql = "SELECT m.*, c.name as category FROM Movie m LEFT JOIN Category c ON m.id_category = c.id WHERE m.id = :id"; 
+    $stmt = $cnx->prepare($sql);
+    $stmt->bindValue(':id', $movieId);
+    $stmt->execute();
+    $res = $stmt->fetch(PDO::FETCH_OBJ);
+    return $res;
+
+
+    // TODO : Implémenter cette fonction
+    // 1. Connexion à la BDD
+    // 2. Préparer la requête SQL SELECT * FROM Movie WHERE id = :id
+    // 3. Exécuter avec le paramètre :id = $movieId
+    // 4. Retourner le résultat avec PDO::FETCH_OBJ
+}
+

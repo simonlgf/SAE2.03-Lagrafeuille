@@ -16,4 +16,15 @@ DataMovie.requestMovies = async function(){
     return data;
 }
 
+// TODO ITÉRATION 3 : Ajouter une fonction requestMovieDetails(id)
+// Cette fonction doit interroger le serveur avec les paramètres: ?todo=readMovieDetail&id=X
+// Elle doit retourner tous les détails du film : titre, affiche, description, réalisateur, année, catégorie, restrictions d'âge, trailer
+DataMovie.requestMovieDetails = async function(movieId){
+    let answer_serv = await fetch(HOST_URL + "/server/script.php?todo=readmoviedetail&id=" + movieId);
+    let data_serv = await answer_serv.json();
+    return data_serv;
+    // TODO : Implémenter la requête fetch vers le serveur
+    // Récupérer les détails complets du film avec l'ID spécifié
+}
+
 export {DataMovie};
