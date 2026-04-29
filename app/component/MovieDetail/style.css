@@ -95,7 +95,7 @@
 .movie-detail__trailer-iframe {
   height: 20rem;
   aspect-ratio: 16/9;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem; 
   max-width: 100%;
 }
 
