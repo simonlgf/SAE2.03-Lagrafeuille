@@ -75,6 +75,10 @@ switch($todo){
       $data = readMovieDetailController();
       break;
 
+    case 'addprofile':
+      $data = addProfileController();
+      break;
+
     default:
       echo json_encode('[error] Unknown todo value');
       http_response_code(400);

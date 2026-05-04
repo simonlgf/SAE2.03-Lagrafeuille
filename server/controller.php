@@ -50,6 +50,23 @@ function addMovieController(){
   }
 }
 
+function addProfileController(){
+  $name = $_REQUEST['name'];
+  $image = $_REQUEST['image'];
+  $age = $_REQUEST['age'];
+  $valide = addProfile($name, $image, $age);
+  if ($valide!=0){
+    return "Le profil a été ajouté avec succès";  
+  }
+  else{
+    return false;
+  }
+}
+
+
+
+
+
 // TODO ITÉRATION 3 : Ajouter la fonction readMovieDetailController()
 // Cette fonction doit :
 // 1. Récupérer le paramètre 'id' depuis la requête HTTP ($_REQUEST['id'])

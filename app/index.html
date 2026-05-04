@@ -20,11 +20,18 @@
       import { Movie } from "./component/Movie/script.js";
       import { DataMovie } from "./data/dataMovie.js";
       import { MovieDetail } from "./component/MovieDetail/script.js";
+      // TODO ITÉRATION 6 : Importer DataProfile depuis "./data/dataProfile.js"
+      // Même syntaxe que les imports ci-dessus, par exemple :
+      // import { DataProfile } from "./data/dataProfile.js";
 
       // Controleur
       // Rappel, écrire window.C plutôt que let C est nécessaire pour tester depuis la console du navigateur
       // Une fois l'application terminée, on pourrait remettre let C.
       window.C = {};
+
+      // TODO ITÉRATION 6 : Déclarer une variable globale pour stocker l'ID du profil actif.
+      // Cela permettra aux futures itérations de filtrer les films selon le profil sélectionné.
+      // window.activeProfileId = null;
 
       /**
        * Récupère et affiche la liste des films disponibles
@@ -59,12 +66,27 @@
         V.renderMovieDetail(movieDetails);
       };
 
+      // TODO ITÉRATION 6 : Ajouter la fonction C.handlerSelectProfile(profileId)
+      // Cette fonction est appelée quand l'utilisateur choisit un profil dans le <select> de la NavBar.
+      // Elle doit :
+      //   1. Stocker l'ID du profil sélectionné dans window.activeProfileId
+      //      Exemple : window.activeProfileId = profileId;
+      //   2. (Optionnel pour l'instant) Recharger la liste des films filtrés avec C.handlerHome()
+      // C.handlerSelectProfile = function (profileId) {
+      //     window.activeProfileId = profileId;
+      //     C.handlerHome();
+      // };
+
       C.handlerAbout = function () {
         alert(
           "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !"
         );
       };
 
+      // TODO ITÉRATION 6 : Transformer C.start() en fonction async pour pouvoir utiliser await
+      // Puis charger les profils AVANT d'afficher la NavBar :
+      //   1. let profiles = await DataProfile.read();   ← récupère les profils depuis le serveur
+      //   2. Passer profiles à V.renderNavBar() pour qu'elle puisse afficher le sélecteur
       C.start = function () {
         V.renderNavBar("C.handlerHome()", "C.handlerAbout()");
         C.handlerHome(); // Affiche les films au démarrage
@@ -80,6 +102,9 @@
        * Elle sélectionne l'élément HTML avec l'ID "header" et y insère le contenu
        * formaté par le composant NavBar.
        */
+      // TODO ITÉRATION 6 : Ajouter un paramètre 'profiles' à V.renderNavBar()
+      // et le transmettre à NavBar.format() pour que le sélecteur de profils soit construit.
+      // Exemple : header.innerHTML = NavBar.format(hAbout, hHome, profiles);
       V.renderNavBar = function (hHome, hAbout) {
         let header = document.querySelector("#header");
         header.innerHTML = NavBar.format(hAbout, hHome);
@@ -124,7 +149,7 @@
 
 
 
-            V.renderMoviesByCategory = function(moviesbyCat)
+      V.renderMoviesByCategory = function(moviesbyCat)
         {
           let section = document.querySelector("#content")
           let html = "";
@@ -140,8 +165,8 @@
             </div>
           </section>
           `;
-         section.innerHTML = html;
         }
+        section.innerHTML = html;
         }
 
 

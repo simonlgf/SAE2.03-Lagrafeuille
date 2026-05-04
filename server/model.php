@@ -64,6 +64,20 @@ function addMovie($name, $year, $length, $description, $director, $id_category, 
     }
 }
 
+
+function addProfile($name, $image, $age)
+{ 
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    $sql = "INSERT INTO UserProfile (name, image, age) VALUES (:name, :image, :age)";
+    $stmt = $cnx->prepare($sql);
+    $result = $stmt->execute(array(
+        ':name' => $name,
+        ':image' => $image,
+        ':age' => $age
+    ));
+    return $result ? 1 : 0;
+}
+
 // TODO ITÉRATION 3 : Ajouter une fonction getMovieDetail($movieId)
 // Cette fonction doit retourner TOUS les détails d'un film basé sur son ID :
 // - id, name (titre), year (année), length (durée), description (synopsis), 

@@ -2,5 +2,19 @@
   <ul class="navbar__list">
     <li class="navbar__item" onclick="{{hHome}}">Home</li>
     <li class="navbar__item" onclick="{{hAbout}}">About</li>
+
+    <!-- TODO ITÉRATION 6 : Ajouter un sélecteur de profil ici -->
+    <!-- Ajouter un <select> contenant les profils récupérés depuis le serveur. -->
+    <!-- Le placeholder {{profiles}} sera remplacé par les <option> dans NavBar.format(). -->
+    <!-- Quand l'utilisateur change de profil, appeler C.handlerSelectProfile(this.value). -->
+    <!-- Exemple de structure à utiliser :
+    <li class="navbar__item">
+      <select onchange="C.handlerSelectProfile(this.value)">
+        <option value="">-- Choisir un profil --</option>
+        {{profiles}}
+      </select>
+    </li>
+    -->
+
   </ul>
 </nav>

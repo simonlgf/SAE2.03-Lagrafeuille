@@ -1,37 +1,46 @@
-.addMovie {
+.addProfile {
     padding: 20px;
-    background-color: #f5f5f5;
+    background-color: var(--color-gray-dark);
+    border: 1px solid var(--color-gray);
     border-radius: 8px;
-    margin: 20px 0;
 }
 
-.addMovie__title {
+.addProfile__title {
     margin-bottom: 20px;
     font-size: 18px;
     font-weight: bold;
+    color: var(--color-fg);
 }
 
-.addMovie__form {
+.addProfile__form {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.addMovie__form input,
-.addMovie__form select {
+.addProfile__form input,
+.addProfile__form select {
     padding: 10px;
-    border: 1px solid #ddd;
+    background-color: var(--color-black);
+    color: var(--color-fg);
+    border: 1px solid var(--color-gray);
     border-radius: 4px;
     font-size: 14px;
+    font-family: var(--ff-sans);
 }
 
-.addMovie__form input[type="button"] {
-    background-color: #007bff;
-    color: white;
+.addProfile__form input::placeholder {
+    color: var(--color-gray);
+}
+
+.addProfile__form input[type="button"] {
+    background-color: var(--color-accent);
+    color: var(--color-black);
     cursor: pointer;
     font-weight: bold;
+    border: none;
 }
 
-.addMovie__form input[type="button"]:hover {
-    background-color: #0056b3;
+.addProfile__form input[type="button"]:hover {
+    filter: brightness(0.85);
 }
