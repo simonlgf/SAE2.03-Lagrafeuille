@@ -1,16 +1,16 @@
 <div class="addProfile">
     <h4 class="addProfile__title"># Ajouter un profil utilisateur</h4>
-    <form class="addProfile__form">
-        
+    <form class="addProfile__form" onsubmit="{{handler}}; return false;">
+
         <input required type="hidden" name="todo" value="addprofile">
 
         <input required type="text" name="name" placeholder="Nom d'utilisateur*">
 
         <input type="text" name="image" placeholder="Fichier photo de profil (optionnel)">
-        
+
         <input required type="number" name="age" placeholder="Restriction d'âge*">
 
-        <input onclick="{{handler}}" type="button" value="Ajouter" name="button">
+        <input type="submit" value="Ajouter">
 
     </form>
 </div>

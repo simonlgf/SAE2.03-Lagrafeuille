@@ -78,6 +78,26 @@ function addProfile($name, $image, $age)
     return $result ? 1 : 0;
 }
 
+// TODO ITÉRATION 6 : Ajouter la fonction getAllProfiles()
+// Même structure que getAllMovies() ci-dessus, mais pour la table UserProfile.
+// La requête SQL doit récupérer au minimum : id, name, image
+// Exemple de requête : SELECT id, name, image FROM UserProfile
+// Retourner les résultats avec fetchAll(PDO::FETCH_OBJ) comme dans getAllMovies().
+
+function getAllProfiles(){
+    try {
+        $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+        $sql = "SELECT id, name, image FROM UserProfile";
+        $stmt = $cnx->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+        return $res;
+    } catch (PDOException $e) {
+        error_log("Erreur de base de données: " . $e->getMessage());
+        return false;
+    }
+}
+
 // TODO ITÉRATION 3 : Ajouter une fonction getMovieDetail($movieId)
 // Cette fonction doit retourner TOUS les détails d'un film basé sur son ID :
 // - id, name (titre), year (année), length (durée), description (synopsis), 

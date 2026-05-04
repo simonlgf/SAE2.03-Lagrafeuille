@@ -20,18 +20,14 @@
       import { Movie } from "./component/Movie/script.js";
       import { DataMovie } from "./data/dataMovie.js";
       import { MovieDetail } from "./component/MovieDetail/script.js";
-      // TODO ITÉRATION 6 : Importer DataProfile depuis "./data/dataProfile.js"
-      // Même syntaxe que les imports ci-dessus, par exemple :
-      // import { DataProfile } from "./data/dataProfile.js";
+      import { DataProfile } from "./data/dataProfile.js";
 
       // Controleur
       // Rappel, écrire window.C plutôt que let C est nécessaire pour tester depuis la console du navigateur
       // Une fois l'application terminée, on pourrait remettre let C.
       window.C = {};
 
-      // TODO ITÉRATION 6 : Déclarer une variable globale pour stocker l'ID du profil actif.
-      // Cela permettra aux futures itérations de filtrer les films selon le profil sélectionné.
-      // window.activeProfileId = null;
+      window.activeProfileId = null; // Profil actif — utilisé dans les prochaines itérations
 
       /**
        * Récupère et affiche la liste des films disponibles
@@ -66,16 +62,34 @@
         V.renderMovieDetail(movieDetails);
       };
 
-      // TODO ITÉRATION 6 : Ajouter la fonction C.handlerSelectProfile(profileId)
-      // Cette fonction est appelée quand l'utilisateur choisit un profil dans le <select> de la NavBar.
-      // Elle doit :
-      //   1. Stocker l'ID du profil sélectionné dans window.activeProfileId
-      //      Exemple : window.activeProfileId = profileId;
-      //   2. (Optionnel pour l'instant) Recharger la liste des films filtrés avec C.handlerHome()
-      // C.handlerSelectProfile = function (profileId) {
-      //     window.activeProfileId = profileId;
-      //     C.handlerHome();
-      // };
+      C.handlerSelectProfile = function (profileId) {
+        window.activeProfileId = profileId;
+
+        let display = document.querySelector("#active-profile");
+        if (profileId === "") {
+          display.className = "navbar__active-profile";
+          display.innerHTML = "";
+        } else {
+          let profileTrouve = null;
+          for (let p of window.profiles) {
+            if (String(p.id) === profileId) {
+              profileTrouve = p;
+            }
+          }
+          if (profileTrouve) {
+            let avatarHtml = "";
+            if (profileTrouve.image !== "") {
+              avatarHtml = `<img class="navbar__active-profile__avatar" src="../server/images/${profileTrouve.image}" alt="${profileTrouve.name}">`;
+            } else {
+              avatarHtml = `<span class="navbar__active-profile__avatar">${profileTrouve.name.charAt(0)}</span>`;
+            }
+            display.innerHTML = `${avatarHtml}${profileTrouve.name}`;
+            display.classList.add("visible");
+          }
+        }
+
+        C.handlerHome();
+      };
 
       C.handlerAbout = function () {
         alert(
@@ -83,13 +97,12 @@
         );
       };
 
-      // TODO ITÉRATION 6 : Transformer C.start() en fonction async pour pouvoir utiliser await
-      // Puis charger les profils AVANT d'afficher la NavBar :
-      //   1. let profiles = await DataProfile.read();   ← récupère les profils depuis le serveur
-      //   2. Passer profiles à V.renderNavBar() pour qu'elle puisse afficher le sélecteur
-      C.start = function () {
-        V.renderNavBar("C.handlerHome()", "C.handlerAbout()");
-        C.handlerHome(); // Affiche les films au démarrage
+      // async comme C.handlerHome — car on utilise await pour attendre les profils du serveur
+      C.start = async function () {
+        let profiles = await DataProfile.read();
+        window.profiles = profiles;
+        V.renderNavBar("C.handlerHome()", "C.handlerAbout()", profiles);
+        C.handlerHome();
       };
 
       // Vue (contient tout ce qui est relatif à l'affichage)
@@ -102,12 +115,10 @@
        * Elle sélectionne l'élément HTML avec l'ID "header" et y insère le contenu
        * formaté par le composant NavBar.
        */
-      // TODO ITÉRATION 6 : Ajouter un paramètre 'profiles' à V.renderNavBar()
-      // et le transmettre à NavBar.format() pour que le sélecteur de profils soit construit.
-      // Exemple : header.innerHTML = NavBar.format(hAbout, hHome, profiles);
-      V.renderNavBar = function (hHome, hAbout) {
+      // Même structure que les autres V.render — on sélectionne l'élément et on y injecte le HTML
+      V.renderNavBar = function (hHome, hAbout, profiles) {
         let header = document.querySelector("#header");
-        header.innerHTML = NavBar.format(hAbout, hHome);
+        header.innerHTML = NavBar.format(hAbout, hHome, profiles);
       };
 
       /**

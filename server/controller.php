@@ -67,6 +67,20 @@ function addProfileController(){
 
 
 
+// TODO ITÉRATION 6 : Ajouter la fonction readProfilesController()
+// Même structure que readMoviesController() ci-dessus (pas de paramètre à lire).
+// Elle doit simplement appeler getAllProfiles() depuis model.php et retourner le résultat.
+// function readProfilesController() {
+//     $profiles = getAllProfiles();
+//     return $profiles;
+// }
+
+function readProfilesController(){
+    $profiles = getAllProfiles();
+    return $profiles;
+}
+
+
 // TODO ITÉRATION 3 : Ajouter la fonction readMovieDetailController()
 // Cette fonction doit :
 // 1. Récupérer le paramètre 'id' depuis la requête HTTP ($_REQUEST['id'])

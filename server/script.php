@@ -79,6 +79,15 @@ switch($todo){
       $data = addProfileController();
       break;
 
+    // TODO ITÉRATION 6 : Ajouter le cas 'readprofiles'
+    // Même structure que les cas existants ci-dessus.
+    // Ce cas doit appeler readProfilesController() (à créer dans controller.php).
+    // La requête HTTP aura la forme : ?todo=readprofiles
+
+      case 'readprofiles':
+        $data = readProfilesController();
+        break;
+
     default:
       echo json_encode('[error] Unknown todo value');
       http_response_code(400);
