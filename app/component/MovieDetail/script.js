@@ -14,7 +14,9 @@ MovieDetail.format = function (film) {
   html = html.replaceAll("{{director}}", film.director);
   html = html.replaceAll("{{year}}", film.year);
   html = html.replaceAll("{{category}}", film.category);
-  html = html.replaceAll("{{min_age}}", film.min_age);
+  // Si min_age vaut 0, on affiche "Tout public" plutôt que "0+"
+  let age_label = Number(film.min_age) === 0 ? "Tout public" : film.min_age;
+  html = html.replaceAll("{{age_label}}", age_label);
   html = html.replaceAll("{{description}}", film.description);
 
   // Utilise l'URL du trailer telle qu'elle est stockée dans la base de données

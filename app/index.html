@@ -33,7 +33,19 @@
        * Récupère et affiche la liste des films disponibles
        */
       C.handlerHome = async function () {
-        let movies = await DataMovie.requestMovies();
+        // null = aucun profil sélectionné (tous les films)
+        // 0   = profil Tout public (uniquement les films min_age = 0)
+        // n   = profil avec restriction d'âge n (films min_age ≤ n)
+        let age = null;
+        if (window.activeProfileId !== null && window.activeProfileId !== "") {
+          for (let p of window.profiles) {
+            if (String(p.id) === String(window.activeProfileId)) {
+              age = Number(p.age);
+              break;
+            }
+          }
+        }
+        let movies = await DataMovie.requestMovies(age);
         let moviesByCategory = C.groupMoviesByCategory(movies);
         V.renderMoviesByCategory(moviesByCategory);
       };
@@ -160,12 +172,20 @@
 
 
 
-      V.renderMoviesByCategory = function(moviesbyCat)
-        {
-          let section = document.querySelector("#content")
-          let html = "";
-          for(let category in moviesbyCat)
-        {
+      V.renderMoviesByCategory = function(moviesbyCat) {
+        let section = document.querySelector("#content");
+
+        // Aucun film disponible après application du filtre d'âge
+        if (Object.keys(moviesbyCat).length === 0) {
+          let msg = document.createElement("p");
+          msg.className = "empty-message";
+          msg.textContent = "Aucun film disponible pour votre tranche d'âge.";
+          section.replaceChildren(msg);
+          return;
+        }
+
+        let html = "";
+        for (let category in moviesbyCat) {
           let movies = moviesbyCat[category];
           let moviesHtml = Movie.format(movies);
           html += `
@@ -178,7 +198,7 @@
           `;
         }
         section.innerHTML = html;
-        }
+      }
 
 
 

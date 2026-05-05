@@ -3,19 +3,15 @@ let HOST_URL = "https://mmi.unilim.fr/~lagrafeuille4/SAE2.03-Lagrafeuille";//"ht
 
 let DataMovie = {};
 
-DataMovie.requestMovies = async function(){
-    // fetch permet d'envoyer une requête HTTP à l'URL spécifiée. 
-    // L'URL est construite en concaténant HOST_URL à "/server/script.php?todo=" et la valeur de la variable. 
-    // L'URL finale dépend de la valeur de HOST_URL et du paramètre.
-    // TODO ITÉRATION 4 : Après modification du serveur, les films incluront maintenant un champ 'category'
-    // qui contient le nom de la catégorie auquel appartient chaque film.
-    // Vous pouvez utiliser ce champ pour grouper les films par catégorie côté client
-    let answer = await fetch(HOST_URL + "/server/script.php?todo=readmovies");
-    // answer est la réponse du serveur à la requête fetch.
-    // On utilise ensuite la méthode json() pour extraire de cette réponse les données au format JSON.
-    // Ces données (data) sont automatiquement converties en objet JavaScript.
+DataMovie.requestMovies = async function(age = null){
+    // Si age vaut null (aucun profil sélectionné), on n'envoie pas le paramètre → le serveur retourne tous les films
+    // Si age vaut 0 (profil Tout public), on l'envoie → le serveur filtre sur min_age <= 0
+    let url = HOST_URL + "/server/script.php?todo=readmovies";
+    if (age !== null) {
+        url += "&age=" + age;
+    }
+    let answer = await fetch(url);
     let data = await answer.json();
-    // Enfin, on retourne ces données.
     return data;
 }
 

@@ -19,26 +19,27 @@ define("DBLOGIN", "lagrafeuille4");
 define("DBPWD", "lagrafeuille4");
 
 
-function getAllMovies(){
-    // Connexion à la base de données
+function getAllMovies($age){
     $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
-    
-    // TODO ITÉRATION 4 : Modifier la requête SQL pour inclure le nom de la catégorie
-    // Pour le moment, on ne récupère que id, name, image
-    // Il faut ajouter le nom de la catégorie pour pouvoir grouper les films par catégorie côté client
-    // 
-    // Indice : Utiliser une LEFT JOIN avec la table Category sur Movie.id_category = Category.id
-    // Vous devez aussi donner un alias au nom de la catégorie (par exemple 'category')
-    // 
-    // Exemple de structure attendue : id, name, image, category
-    $sql = "select Movie.id, Movie.name, Movie.image, Category.name as category from Movie LEFT JOIN Category ON Movie.id_category = Category.id";
-    // Prépare la requête SQL
-    $stmt = $cnx->prepare($sql);
-    // Exécute la requête SQL
-    $stmt->execute();
-    // Récupère les résultats de la requête sous forme d'objets
+
+    $sql = "SELECT Movie.id, Movie.name, Movie.image, Category.name as category
+            FROM Movie
+            LEFT JOIN Category ON Movie.id_category = Category.id";
+
+    // $age === null signifie "aucun profil sélectionné" → on affiche tous les films
+    // $age = 0 signifie un profil "Tout public" → on n'affiche que les films avec min_age = 0
+    // $age > 0 → on filtre : uniquement les films dont min_age <= age du profil
+    if ($age === null) {
+        $stmt = $cnx->prepare($sql);
+        $stmt->execute();
+    } else {
+        $sql .= " WHERE Movie.min_age <= :age";
+        $stmt = $cnx->prepare($sql);
+        $stmt->execute([':age' => $age]);
+    }
+
     $res = $stmt->fetchAll(PDO::FETCH_OBJ);
-    return $res; // Retourne les résultats
+    return $res;
 }
 
 function addMovie($name, $year, $length, $description, $director, $id_category, $image, $trailer, $min_age){
@@ -87,7 +88,7 @@ function addProfile($name, $image, $age)
 function getAllProfiles(){
     try {
         $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
-        $sql = "SELECT id, name, image FROM UserProfile";
+        $sql = "SELECT id, name, image, age FROM UserProfile";
         $stmt = $cnx->prepare($sql);
         $stmt->execute();
         $res = $stmt->fetchAll(PDO::FETCH_OBJ);

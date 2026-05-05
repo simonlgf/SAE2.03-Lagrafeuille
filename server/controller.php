@@ -23,11 +23,10 @@ require("model.php");
 
 
 function readMoviesController(){
-    // Récupère le paramètre age s'il existe
-    $minAge = isset($_REQUEST['age']);
-    
-    // Appelle la fonction du modèle en passant l'âge minimum
-    $movies = getAllMovies($minAge);
+    // Si le paramètre age est absent → aucun profil sélectionné → on passe null (tous les films)
+    // Si age est présent → profil sélectionné (0 = Tout public, 12, 16…) → on filtre
+    $age = isset($_REQUEST['age']) ? intval($_REQUEST['age']) : null;
+    $movies = getAllMovies($age);
     return $movies;
 }
 
