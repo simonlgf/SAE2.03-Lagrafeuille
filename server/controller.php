@@ -74,6 +74,21 @@ function addProfileController(){
 //     return $profiles;
 // }
 
+function updateProfileController(){
+    $id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+    if ($id <= 0) {
+        return false;
+    }
+    $name  = $_REQUEST['name']  ?? '';
+    $image = $_REQUEST['image'] ?? '';
+    $age   = $_REQUEST['age']   ?? 0;
+    $result = updateProfile($id, $name, $image, $age);
+    if ($result) {
+        return "Le profil a été modifié avec succès";
+    }
+    return false;
+}
+
 function readProfilesController(){
     $profiles = getAllProfiles();
     return $profiles;

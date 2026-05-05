@@ -85,6 +85,24 @@ function addProfile($name, $image, $age)
 // Exemple de requête : SELECT id, name, image FROM UserProfile
 // Retourner les résultats avec fetchAll(PDO::FETCH_OBJ) comme dans getAllMovies().
 
+function updateProfile($id, $name, $image, $age){
+    try {
+        $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+        $sql = "UPDATE UserProfile SET name=:name, image=:image, age=:age WHERE id=:id";
+        $stmt = $cnx->prepare($sql);
+        $result = $stmt->execute([
+            ':id'    => $id,
+            ':name'  => $name,
+            ':image' => $image,
+            ':age'   => $age
+        ]);
+        return $result ? 1 : 0;
+    } catch (PDOException $e) {
+        error_log("Erreur de base de données: " . $e->getMessage());
+        return false;
+    }
+}
+
 function getAllProfiles(){
     try {
         $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);

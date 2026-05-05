@@ -88,6 +88,10 @@ switch($todo){
         $data = readProfilesController();
         break;
 
+      case 'updateprofile':
+        $data = updateProfileController();
+        break;
+
     default:
       echo json_encode('[error] Unknown todo value');
       http_response_code(400);

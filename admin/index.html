@@ -10,38 +10,82 @@
     <section id="log"></section>
     <section id="addMovie"></section>
     <section id="addProfile"></section>
+    <section id="profileList"></section>
 
     <script type="module">
       import { Log } from "./component/Log/script.js";
       import { MovieForm } from "./component/MovieForm/script.js";
       import { ProfileForm } from "./component/ProfileForm/script.js";
+      import { ProfileEdit } from "./component/ProfileEdit/script.js";
       import { DataMovie } from "./data/dataMovie.js";
       import { DataProfile } from "./data/dataProfile.js";
 
       window.C = {};
 
-      C.handlerAddMovie = async function(){
-            
-            let form = document.querySelector('.addMovie__form');
-      
-            let fd = new FormData(form);
-            let res = await DataMovie.add(fd);
-            V.renderLog(res);
-        }
+      // Stocke les profils chargés pour pouvoir les retrouver par id au clic sur "Modifier"
+      window.profiles = [];
 
-      C.handlerAddProfile = async function(){
-            
-            let form = document.querySelector('.addProfile__form');
-      
-            let fd = new FormData(form);
-            let res = await DataProfile.addProfile(fd);
-            V.renderLog(res);
-        }
+      C.handlerAddMovie = async function () {
+        let form = document.querySelector(".addMovie__form");
+        let fd = new FormData(form);
+        let res = await DataMovie.add(fd);
+        V.renderLog(res);
+      };
 
-      C.start = function () {
+      C.handlerAddProfile = async function () {
+        let form = document.querySelector(".addProfile__form");
+        let fd = new FormData(form);
+        let res = await DataProfile.addProfile(fd);
+        V.renderLog(res);
+        if (res) {
+          let profiles = await DataProfile.requestProfiles();
+          window.profiles = profiles;
+          V.renderProfileList(profiles);
+        }
+      };
+
+      // Appelé par le bouton "Modifier" de chaque ligne (via data-id / this.dataset.id)
+      // Pré-remplit le formulaire déjà présent dans le DOM et le révèle
+      C.handlerEditProfile = function (profileId) {
+        let profileTrouve = null;
+        for (let p of window.profiles) {
+          if (String(p.id) === String(profileId)) {
+            profileTrouve = p;
+            break;
+          }
+        }
+        if (profileTrouve) {
+          let panel = document.querySelector("#editProfilePanel");
+          let form = panel.querySelector("form");
+          form.querySelector('[name="id"]').value    = profileTrouve.id;
+          form.querySelector('[name="name"]').value  = profileTrouve.name;
+          form.querySelector('[name="image"]').value = profileTrouve.image || "";
+          form.querySelector('[name="age"]').value   = profileTrouve.age;
+          panel.hidden = false;
+          panel.scrollIntoView({ behavior: "smooth" });
+        }
+      };
+
+      // Appelé par l'onsubmit du formulaire d'édition
+      C.handlerUpdateProfile = async function () {
+        let form = document.querySelector(".editProfile__form");
+        let fd = new FormData(form);
+        let res = await DataProfile.updateProfile(fd);
+        V.renderLog(res);
+        if (res) {
+          let profiles = await DataProfile.requestProfiles();
+          window.profiles = profiles;
+          V.renderProfileList(profiles);
+        }
+      };
+
+      C.start = async function () {
         V.renderLog("Démarrage de l'application");
         V.renderAddMovie("C.handlerAddMovie()");
         V.renderAddProfile("C.handlerAddProfile()");
+        let profiles = await DataProfile.requestProfiles();
+        window.profiles = profiles;
+        V.renderProfileList(profiles);
       };
 
       window.V = {};
@@ -61,7 +105,10 @@
         content.innerHTML = ProfileForm.format(handler);
       };
 
-
+      V.renderProfileList = function (profiles) {
+        let content = document.querySelector("#profileList");
+        content.innerHTML = ProfileEdit.formatList(profiles);
+      };
 
       C.start();
     </script>

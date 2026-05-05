@@ -4,7 +4,18 @@ let HOST_URL = "..";//"http://mmi.unilim.fr/~????";
 let DataProfile = {};
 
 DataProfile.requestProfiles = async function(){
-    let answer = await fetch(HOST_URL + "/server/script.php?todo=readProfiles");
+    // "readprofiles" en minuscules pour correspondre au switch dans script.php
+    let answer = await fetch(HOST_URL + "/server/script.php?todo=readprofiles");
+    let data = await answer.json();
+    return data;
+}
+
+DataProfile.updateProfile = async function(fdata){
+    let config = {
+        method: "POST",
+        body: fdata
+    };
+    let answer = await fetch(HOST_URL + "/server/script.php?todo=updateprofile", config);
     let data = await answer.json();
     return data;
 }
