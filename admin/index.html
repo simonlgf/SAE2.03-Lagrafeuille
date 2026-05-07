@@ -4,6 +4,7 @@
     <title>SAE2.03 ADMIN</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="./css/base.css" />
   </head>
   <body>
@@ -60,7 +61,7 @@
           form.querySelector('[name="id"]').value    = profileTrouve.id;
           form.querySelector('[name="name"]').value  = profileTrouve.name;
           form.querySelector('[name="image"]').value = profileTrouve.image || "";
-          form.querySelector('[name="age"]').value   = profileTrouve.age;
+          form.querySelector('[name="date_naissance"]').value = profileTrouve.date_naissance || "";
           panel.hidden = false;
           panel.scrollIntoView({ behavior: "smooth" });
         }

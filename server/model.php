@@ -66,15 +66,15 @@ function addMovie($name, $year, $length, $description, $director, $id_category, 
 }
 
 
-function addProfile($name, $image, $age)
-{ 
+function addProfile($name, $image, $date_naissance)
+{
     $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
-    $sql = "INSERT INTO UserProfile (name, image, age) VALUES (:name, :image, :age)";
+    $sql = "INSERT INTO UserProfile (name, image, date_naissance) VALUES (:name, :image, :date_naissance)";
     $stmt = $cnx->prepare($sql);
     $result = $stmt->execute(array(
         ':name' => $name,
         ':image' => $image,
-        ':age' => $age
+        ':date_naissance' => $date_naissance
     ));
     return $result ? 1 : 0;
 }
@@ -85,16 +85,16 @@ function addProfile($name, $image, $age)
 // Exemple de requête : SELECT id, name, image FROM UserProfile
 // Retourner les résultats avec fetchAll(PDO::FETCH_OBJ) comme dans getAllMovies().
 
-function updateProfile($id, $name, $image, $age){
+function updateProfile($id, $name, $image, $date_naissance){
     try {
         $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
-        $sql = "UPDATE UserProfile SET name=:name, image=:image, age=:age WHERE id=:id";
+        $sql = "UPDATE UserProfile SET name=:name, image=:image, date_naissance=:date_naissance WHERE id=:id";
         $stmt = $cnx->prepare($sql);
         $result = $stmt->execute([
-            ':id'    => $id,
-            ':name'  => $name,
-            ':image' => $image,
-            ':age'   => $age
+            ':id'             => $id,
+            ':name'           => $name,
+            ':image'          => $image,
+            ':date_naissance' => $date_naissance
         ]);
         return $result ? 1 : 0;
     } catch (PDOException $e) {
@@ -106,7 +106,7 @@ function updateProfile($id, $name, $image, $age){
 function getAllProfiles(){
     try {
         $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
-        $sql = "SELECT id, name, image, age FROM UserProfile";
+        $sql = "SELECT id, name, image, date_naissance FROM UserProfile";
         $stmt = $cnx->prepare($sql);
         $stmt->execute();
         $res = $stmt->fetchAll(PDO::FETCH_OBJ);

@@ -8,19 +8,32 @@
 @import "../component/Movie/style.css" layer(components);
 @import "../component/MovieDetail/style.css" layer(components);
 
-/* Conteneur pour les films */
-.movies-container {
+/* Grille de films — 2 colonnes sur mobile */
+.accueil__films {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1rem;
   width: 100%;
 }
 
-/* Message vide */
-.empty-message {
+@media (min-width: 640px) {
+  .accueil__films {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .accueil__films {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+.accueil__vide {
   text-align: center;
   padding: 2rem;
   color: var(--color-fg);
-  font-size: 1.1rem;
+  font-size: 1rem;
 }

@@ -4,6 +4,7 @@
     <title>SAE2.03 APP</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="./css/base.css" />
     <link rel="stylesheet" href="./component/Movie/style.css" />
     <link rel="stylesheet" href="./component/MovieDetail/style.css" />
@@ -40,7 +41,10 @@
         if (window.activeProfileId !== null && window.activeProfileId !== "") {
           for (let p of window.profiles) {
             if (String(p.id) === String(window.activeProfileId)) {
-              age = Number(p.age);
+              /* Calcul de l'âge : année actuelle - année de naissance */
+              let anneeNaissance = new Date(p.date_naissance).getFullYear();
+              let anneeActuelle  = new Date().getFullYear();
+              age = anneeActuelle - anneeNaissance;
               break;
             }
           }
@@ -143,7 +147,7 @@
         let content = document.querySelector("#content");
         
         if (!movies || movies.length === 0) {
-          content.innerHTML = "<p class='empty-message'>Aucun film disponible pour le moment.</p>";
+          content.innerHTML = "<p class='accueil__vide'>Aucun film disponible pour le moment.</p>";
           return;
         }
 
@@ -162,7 +166,7 @@
         
         // Crée un conteneur avec une grille pour afficher les films
         let html = `
-          <div class="movies-container">
+          <div class="accueil__films">
             ${moviesHtml}
           </div>
         `;
@@ -212,7 +216,7 @@
         let section = document.querySelector("#content");
         let movieDetailHtml = MovieDetail.format(movieDetail);
         let html = `
-          <div class="movie-detail-container">
+          <div class="detail__conteneur">
             ${movieDetailHtml}
           </div>
         `;

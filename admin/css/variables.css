@@ -1,18 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,700&display=swap");
 
 :root {
-  /* Primitive Tokens */
-  --color-black: hsl(253, 69%, 8%);
-  --color-white: hsl(0, 0%, 100%);
-  --color-gray-light: hsl(0, 0%, 80%);
-  --color-gray: hsl(0, 0%, 50%);
-  --color-gray-dark: hsl(0, 0%, 20%);
-  --color-green: hsl(120, 100%, 37%);
+  --ff-sans: "DM Sans", sans-serif;
 
-  --ff-sans: "DM sans", sans-serif;
+  /* Fond de page et surfaces */
+  --admin-bg:        #f4f5f7;
+  --admin-surface:   #ffffff;
+  --admin-border:    #e1e4e8;
 
-  /* Sementic Tokens */
-  --color-fg: var(--color-white);
-  --color-bg: var(--color-gray-dark);
-  --color-accent: var(--color-green);
+  /* Textes */
+  --admin-text:      #24292e;
+  --admin-text-muted: #6a737d;
+
+  /* Boutons noirs sobres */
+  --admin-accent:        #24292e;
+  --admin-accent-hover:  #1a1a1a;
+  --admin-accent-text:   #ffffff;
+
+  /* Log (succès / info) */
+  --admin-log-text:  #2e7d32;
 }

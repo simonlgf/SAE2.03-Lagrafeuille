@@ -10,8 +10,8 @@
 @import "../component/ProfileEdit/style.css" layer(components);
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-fg);
+  background-color: var(--admin-bg);
+  color: var(--admin-text);
   font-family: var(--ff-sans);
   padding: 2rem;
   display: flex;
@@ -22,5 +22,5 @@ body {
 #addMovie,
 #addProfile,
 #profileList {
-  max-width: 600px;
+  max-width: 37.5rem;
 }

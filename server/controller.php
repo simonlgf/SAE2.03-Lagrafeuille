@@ -50,14 +50,13 @@ function addMovieController(){
 }
 
 function addProfileController(){
-  $name = $_REQUEST['name'];
-  $image = $_REQUEST['image'];
-  $age = $_REQUEST['age'];
-  $valide = addProfile($name, $image, $age);
-  if ($valide!=0){
-    return "Le profil a été ajouté avec succès";  
-  }
-  else{
+  $name           = $_REQUEST['name'];
+  $image          = $_REQUEST['image'];
+  $date_naissance = $_REQUEST['date_naissance'];
+  $valide = addProfile($name, $image, $date_naissance);
+  if ($valide != 0){
+    return "Le profil a été ajouté avec succès";
+  } else {
     return false;
   }
 }
@@ -79,10 +78,10 @@ function updateProfileController(){
     if ($id <= 0) {
         return false;
     }
-    $name  = $_REQUEST['name']  ?? '';
-    $image = $_REQUEST['image'] ?? '';
-    $age   = $_REQUEST['age']   ?? 0;
-    $result = updateProfile($id, $name, $image, $age);
+    $name           = $_REQUEST['name']           ?? '';
+    $image          = $_REQUEST['image']          ?? '';
+    $date_naissance = $_REQUEST['date_naissance'] ?? '';
+    $result = updateProfile($id, $name, $image, $date_naissance);
     if ($result) {
         return "Le profil a été modifié avec succès";
     }

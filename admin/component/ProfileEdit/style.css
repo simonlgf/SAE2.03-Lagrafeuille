@@ -1,103 +1,111 @@
 .profile-list {
-    padding: 20px;
-    background-color: var(--color-gray-dark);
-    border: 1px solid var(--color-gray);
-    border-radius: 8px;
+  padding: 1.5rem;
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: 0.5rem;
 }
 
 .profile-list__title {
-    margin-bottom: 16px;
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--color-fg);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--admin-text);
 }
 
 .profile-list__ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .profile-list__item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    background-color: var(--color-black);
-    border: 1px solid var(--color-gray);
-    border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  background-color: var(--admin-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: 0.375rem;
 }
 
 .profile-list__name {
-    flex: 1;
-    font-size: 14px;
-    color: var(--color-fg);
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--admin-text);
 }
 
 .profile-list__age {
-    font-size: 12px;
-    color: var(--color-gray-light);
+  font-size: 0.78rem;
+  color: var(--admin-text-muted);
 }
 
 .profile-list__btn {
-    padding: 6px 14px;
-    background-color: var(--color-accent);
-    color: var(--color-black);
-    border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-    font-family: var(--ff-sans);
+  padding: 0.375rem 0.875rem;
+  background-color: var(--admin-accent);
+  color: var(--admin-accent-text);
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--ff-sans);
+  transition: background-color 0.15s ease;
 }
 
 .profile-list__btn:hover {
-    filter: brightness(0.85);
+  background-color: var(--admin-accent-hover);
 }
 
 .editProfile {
-    padding: 20px;
-    background-color: var(--color-gray-dark);
-    border: 1px solid var(--color-gray);
-    border-radius: 8px;
+  padding: 1.5rem;
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: 0.5rem;
 }
 
 .editProfile__title {
-    margin-bottom: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--color-fg);
+  margin-bottom: 1.25rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--admin-text);
 }
 
 .editProfile__form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
 }
 
 .editProfile__form input {
-    padding: 10px;
-    background-color: var(--color-black);
-    color: var(--color-fg);
-    border: 1px solid var(--color-gray);
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: var(--ff-sans);
+  padding: 0.625rem 0.75rem;
+  background-color: var(--admin-bg);
+  color: var(--admin-text);
+  border: 1px solid var(--admin-border);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-family: var(--ff-sans);
+  transition: border-color 0.15s ease;
+}
+
+.editProfile__form input:focus {
+  outline: none;
+  border-color: var(--admin-accent);
 }
 
 .editProfile__form input::placeholder {
-    color: var(--color-gray);
+  color: var(--admin-text-muted);
 }
 
 .editProfile__form input[type="submit"] {
-    background-color: var(--color-accent);
-    color: var(--color-black);
-    cursor: pointer;
-    font-weight: bold;
-    border: none;
+  background-color: var(--admin-accent);
+  color: var(--admin-accent-text);
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+  margin-top: 0.25rem;
 }
 
 .editProfile__form input[type="submit"]:hover {
-    filter: brightness(0.85);
+  background-color: var(--admin-accent-hover);
 }

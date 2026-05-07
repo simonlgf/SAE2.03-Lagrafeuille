@@ -10,7 +10,10 @@ ProfileEdit.formatList = function (profiles) {
     let items = "";
     for (let profile of profiles) {
         let row = templateLI;
-        let ageLabel = Number(profile.age) === 0 ? "Tout public" : profile.age + "+";
+        let anneeNaissance = new Date(profile.date_naissance).getFullYear();
+        let anneeActuelle  = new Date().getFullYear();
+        let age = anneeActuelle - anneeNaissance;
+        let ageLabel = age <= 0 ? "Tout public" : age + " ans";
         row = row.replaceAll("{{name}}", profile.name);
         row = row.replaceAll("{{age_label}}", ageLabel);
         row = row.replaceAll("{{id}}", profile.id);
