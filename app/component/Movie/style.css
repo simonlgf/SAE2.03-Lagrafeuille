@@ -9,11 +9,12 @@
   position: relative;
   overflow: hidden;
   border-radius: 0.25rem;
+  aspect-ratio: 2/3;
 }
 
 .movie-card__image {
   width: 100%;
-  aspect-ratio: 2/3;
+  height: 100%;
   object-fit: cover;
   display: block;
   transition: opacity 0.3s ease;
@@ -87,6 +88,7 @@
 
 .movie-card__title {
   margin: 0;
+  min-width: 0;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--mn-text-primary);
@@ -99,6 +101,7 @@
 
 .movie-card__director {
   margin: 0;
+  min-width: 0;
   font-size: 0.78rem;
   color: var(--mn-text-secondary);
   font-family: var(--ff-sans);
