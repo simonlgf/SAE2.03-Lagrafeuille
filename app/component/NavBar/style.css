@@ -1,78 +1,123 @@
-.navbar {
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: var(--mn-bg-primary);
+  color: var(--mn-text-primary);
+}
+
+.nav__inner {
   display: flex;
   flex-direction: row;
+  align-items: stretch;
   justify-content: space-between;
-  align-items: center;
-  padding: 1rem 3rem;
-  color: var(--color-fg);
-  background-color: var(--color-bg);
-
-  .navbar__item {
-    --_offset: 0.2rem;
-    padding: 0.5rem 1rem;
-    text-decoration: underline;
-    text-decoration-thickness: 0.1rem;
-    text-underline-offset: var(--_offset);
-    cursor: pointer;
-    transition: text-underline-offset 0.2s ease-in-out;
-    &:hover {
-      --_offset: 0.5rem;
-    }
-  }
+  height: 3.8125rem;
+  padding: 0 1.875rem;
 }
 
-.navbar__list {
+/* ---------- Logo ---------- */
+
+.nav__left {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.nav__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav__logo-image {
+  height: 1.5rem;
+  width: auto;
+  display: block;
+}
+
+/* ---------- Liste de navigation centrale ---------- */
+
+.nav__list {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1.5rem;
-  width: 100%;
+  gap: 1.875rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.navbar__item--profile {
-  margin-left: auto;
+.nav__item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+}
+
+.nav__link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0;
+  color: var(--mn-text-primary);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-family: var(--ff-sans);
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+/* Hover sur le <li> parent pour déclencher le style du lien */
+.nav__item:hover .nav__link {
+  border-bottom-color: var(--mn-accent);
+  color: var(--mn-text-white);
+}
+
+.nav__link--active {
+  border-bottom-color: var(--mn-accent);
+}
+
+/* ---------- Pour les profils ( droite ) ---------- */
+
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav__profile {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  text-decoration: none;
-  cursor: default;
-
-  &:hover {
-    --_offset: 0.2rem;
-  }
-
-  select {
-    background-color: transparent;
-    color: var(--color-fg);
-    border: 1px solid var(--color-gray);
-    border-radius: 0.3rem;
-    padding: 0.3rem 0.6rem;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 0.9rem;
-  }
 }
 
-.navbar__active-profile {
+/* Profil actif affiché (avatar + nom) */
+.nav__active-profile {
   display: none;
   align-items: center;
   gap: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--color-gray);
+  background-color: var(--mn-bg-secondary);
+  border: 1px solid hsla(0, 0%, 100%, 0.15);
   border-radius: 2rem;
   padding: 0.2rem 0.8rem 0.2rem 0.2rem;
   font-size: 0.85rem;
-
-  &.visible {
-    display: flex;
-  }
+  color: var(--mn-text-primary);
 }
 
-.navbar__active-profile__avatar {
-  width: 2.5rem;
-  height: 2.5rem;
+.nav__active-profile--visible {
+  display: flex;
+}
+
+.nav__active-profile__avatar {
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
-  background-color: var(--color-gray);
+  background-color: var(--mn-bg-secondary);
+  border: 1px solid var(--mn-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,8 +126,32 @@
   text-transform: uppercase;
   object-fit: cover;
   flex-shrink: 0;
+  color: var(--mn-text-primary);
 }
 
-.navbar__select{
-  width: 6rem;
+/* Select profil */
+.nav__select {
+  background-color: transparent;
+  color: var(--mn-text-primary);
+  border: 1px solid hsla(0, 0%, 100%, 0.3);
+  border-radius: 0.25rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-family: var(--ff-sans);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: border-color 0.15s ease;
+}
+
+.nav__select:hover,
+.nav__select:focus {
+  border-color: var(--mn-accent);
+  outline: 2px solid var(--mn-accent);
+  outline-offset: 0.125rem;
+}
+
+.nav__select option {
+  background-color: var(--mn-bg-secondary);
+  color: var(--mn-text-primary);
 }

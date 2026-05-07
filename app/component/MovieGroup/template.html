@@ -1,0 +1,20 @@
+<div class="movie-group">
+
+  <!-- Hero : même structure que les sections d'accueil -->
+  <div class="movie-group__hero" style="background-image: url('{{backgroundImage}}')">
+    <div class="movie-group__hero-overlay">
+      <p class="movie-group__label">SÉLECTION</p>
+      <h2 class="movie-group__title">{{categoryName}}</h2>
+      <p class="movie-group__description">{{description}}</p>
+    </div>
+  </div>
+
+  <!-- Grille des films -->
+  <div class="movie-group__content">
+    <p class="movie-group__count">{{totalCount}} films disponibles</p>
+    <div class="movie-group__grid">
+      {{movies}}
+    </div>
+  </div>
+
+</div>

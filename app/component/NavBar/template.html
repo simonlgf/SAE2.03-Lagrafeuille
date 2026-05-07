@@ -1,13 +1,35 @@
-<nav class="navbar font-sans">
-  <ul class="navbar__list">
-    <li class="navbar__item" onclick="{{hHome}}">Home</li>
-    <li class="navbar__item" onclick="{{hAbout}}">About</li>
-    <li class="navbar__item navbar__item--profile">
-      <span class="navbar__active-profile" id="active-profile"></span>
-      <select class="navbar__select" onchange="C.handlerSelectProfile(this.value)">
-        <option value="">Profil</option>
-        {{profiles}}
-      </select>
-    </li>
-  </ul>
+<nav class="nav">
+  <div class="nav__inner">
+
+    <div class="nav__left" onclick="C.handlerHome()">
+      <span class="nav__logo">
+        <img
+          class="nav__logo-image"
+          src="../server/images/MediathequeNumerique-logo.png"
+          alt="Médiathèque Numérique"
+        />
+      </span>
+    </div>
+
+    <ul class="nav__list">
+      <!-- onclick sur <li> : cible plus large, évite les problèmes de <a> sans href -->
+      <li class="nav__item" onclick="{{hHome}}">
+        <span class="nav__link">Accueil</span>
+      </li>
+      <li class="nav__item" onclick="{{hAbout}}">
+        <span class="nav__link">À propos</span>
+      </li>
+    </ul>
+
+    <div class="nav__right">
+      <div class="nav__profile">
+        <span class="nav__active-profile" id="active-profile"></span>
+        <select class="nav__select" onchange="C.handlerSelectProfile(this.value)">
+          <option value="">Profil</option>
+          {{profiles}}
+        </select>
+      </div>
+    </div>
+
+  </div>
 </nav>

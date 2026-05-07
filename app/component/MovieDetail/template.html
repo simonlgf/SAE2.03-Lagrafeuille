@@ -1,40 +1,62 @@
 <div class="movie-detail">
-  <div class="movie-detail__container">
-    <aside class="movie-detail__aside">
-      <img class="movie-detail__image" src="{{image}}" alt="Affiche de {{title}}">
-    </aside>
-    
-    <main class="movie-detail__main">
-      <h1 class="movie-detail__title">{{title}}</h1>
-      
-      <div class="movie-detail__metadata">
-        <p class="movie-detail__info">
-          <span class="movie-detail__label">Réalisateur :</span>
-          <span class="movie-detail__value">{{director}}</span>
-        </p>
-        <p class="movie-detail__info">
-          <span class="movie-detail__label">Année :</span>
-          <span class="movie-detail__value">{{year}}</span>
-        </p>
-        <p class="movie-detail__info">
-          <span class="movie-detail__label">Catégorie :</span>
-          <span class="movie-detail__value">{{category}}</span>
-        </p>
-        <p class="movie-detail__info">
-          <span class="movie-detail__label">Restriction d'âge :</span>
-          <span class="movie-detail__value">{{age_label}}</span>
-        </p>
+
+  <!-- HERO : image de fond + overlay sombre -->
+  <div class="movie-detail__hero" style="background-image: url('{{image}}')">
+    <div class="movie-detail__hero-overlay">
+
+      <!-- Spacer pour pousser le contenu vers le bas -->
+      <div></div>
+
+      <!-- Bouton play centré -->
+      <button class="movie-detail__play" onclick="C.openTrailer('{{trailer}}')">▶</button>
+
+      <!-- Bas du hero : infos à gauche, actions à droite -->
+      <div class="movie-detail__hero-footer">
+
+        <div class="movie-detail__hero-bottom">
+          <img class="movie-detail__thumb" src="{{image}}" alt="{{title}}">
+          <div class="movie-detail__hero-info">
+            <h1 class="movie-detail__title">{{title}}</h1>
+            <p class="movie-detail__by">De {{director}} ({{year}})</p>
+            <p class="movie-detail__meta">{{duration}} | {{category}}</p>
+            <div class="movie-detail__badges">
+              <img class="movie-detail__badge" src="../server/images/SD.png" alt="SD">
+              <img class="movie-detail__badge" src="../server/images/HD.png" alt="HD">
+            </div>
+          </div>
+        </div>
+
+        <div class="movie-detail__hero-actions">
+          <button class="movie-detail__trailer-btn" onclick="C.openTrailer('{{trailer}}')">Voir la bande-annonce</button>
+          <img class="movie-detail__heart" src="../server/images/favori_blank.png" alt="Favoris">
+        </div>
+
       </div>
-
-      <section class="movie-detail__synopsis">
-        <h2>Synopsis</h2>
-        <p>{{description}}</p>
-      </section>
-
-      <section class="movie-detail__trailer">
-        <h2>Bande-annonce</h2>
-        <iframe class="movie-detail__trailer-iframe" src="{{trailer}}" title="Bande-annonce de {{title}}" frameborder="0" allowfullscreen></iframe>
-      </section>
-    </main>
+    </div>
   </div>
+
+  <!-- CORPS DE LA PAGE -->
+  <div class="movie-detail__body">
+
+    <!-- Barre onglet Synopsis + partage -->
+    <div class="movie-detail__top-bar">
+      <span class="movie-detail__tab movie-detail__tab--active">Synopsis</span>
+      <div class="movie-detail__share">
+        <span class="movie-detail__share-label">PARTAGER</span>
+        <img class="movie-detail__share-icon" src="../server/images/twitter.svg" alt="Twitter">
+        <img class="movie-detail__share-icon" src="../server/images/facebook.svg" alt="Facebook">
+      </div>
+    </div>
+
+    <!-- Texte synopsis -->
+    <p class="movie-detail__synopsis">{{description}}</p>
+
+    <!-- Proposé par -->
+    <div class="movie-detail__provider">
+      <p class="movie-detail__provider-label">PROPOSÉ PAR :</p>
+      <img class="movie-detail__provider-logo" src="../server/images/arte.png" alt="Arte">
+    </div>
+
+  </div>
+
 </div>

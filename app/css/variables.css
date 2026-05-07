@@ -9,7 +9,17 @@
   --color-gray-dark: hsl(0, 0%, 20%);
   --ff-sans: "DM sans", sans-serif;
 
-  /* Sementic Tokens */
+  /* Semantic Tokens */
   --color-fg: var(--color-white);
   --color-bg: var(--color-gray-dark);
+
+  /* Médiathèque Numérique — palette */
+  --mn-bg-primary:    #0d1017;
+  --mn-bg-secondary:  #1c2330;
+  --mn-bg-dark:       #010204;
+  --mn-accent:        #69c9c9;
+  --mn-text-primary:  hsla(0, 0%, 100%, 0.88);
+  --mn-text-secondary: hsla(0, 0%, 100%, 0.6);
+  --mn-text-white:    #ffffff;
+  --mn-text-family: "berna-regular", sans-serif;
 }

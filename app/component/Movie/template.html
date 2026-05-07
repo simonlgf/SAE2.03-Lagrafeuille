@@ -1,4 +1,20 @@
 <article class="movie-card" {{handlerClick}}>
-  <img class="movie-card__image" src="{{image}}" alt="Affiche de {{title}}">
+  <div class="movie-card__poster">
+    <img class="movie-card__image" src="{{image}}" alt="Affiche de {{title}}">
+    <div class="movie-card__overlay">
+      <img class="movie-card__heart" src="../server/images/favori_blank.png" alt="Favoris">
+      <div class="movie-card__meta">
+        <div class="movie-card__info">
+          <span class="movie-card__year">{{year}}</span>
+          <span class="movie-card__duration">{{duration}}</span>
+        </div>
+        <div class="movie-card__badges">
+          <img class="movie-card__badge" src="../server/images/SD.png" alt="SD">
+          <img class="movie-card__badge" src="../server/images/HD.png" alt="HD">
+        </div>
+      </div>
+    </div>
+  </div>
   <h3 class="movie-card__title">{{title}}</h3>
+  <p class="movie-card__director">{{director}}</p>
 </article>

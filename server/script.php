@@ -3,9 +3,10 @@
 // Activer le rapport d'erreurs PHP
 error_reporting(E_ALL);
 
-// Forcer l'affichage des erreurs à l'écran
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+// display_errors à 0 : PHP détecte toujours les erreurs mais ne les affiche PAS dans la réponse.
+// C'est indispensable ici car afficher une erreur au milieu d'une réponse JSON la rend invalide.
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 
 /** ARCHITECTURE PHP SERVEUR : Rôle du fichier script.php
  * 

@@ -1,56 +1,60 @@
-// TODO ITÉRATION 4 : Créer le composant MovieCategory
-// Ce composant doit afficher une catégorie avec ses films associés
-// 
-// Le composant MovieCategory doit :
-// 1. Exporter un objet MovieCategory
-// 2. Avoir une méthode format(categoryName, filmsList) qui :
-//    - Prend en paramètre le nom de la catégorie (string)
-//    - Prend en paramètre une liste de films appartenant à cette catégorie (array)
-//    - Retourne le HTML formaté pour afficher la catégorie
-//
-// Structure du HTML attendu :
-// <section class="category-section">
-//   <h2 class="category-title">{categoryName}</h2>
-//   <div class="category-movies">
-//     {films formatés avec Movie.format()}
-//   </div>
-// </section>
-//
-// Indice : Vous devez importer le composant Movie pour afficher les films
-// et la fonction template.html pour la structure HTML
+import { Movie } from "../Movie/script.js";
 
 let templateFile = await fetch("./component/MovieCategory/template.html");
 let template = await templateFile.text();
 
-// TODO : À implémenter
-// Import du composant Movie pour afficher les films
-import { Movie } from "../Movie/script.js";
+/* Correspondance entre le nom de catégorie (tel qu'il est en BDD) et le fichier de fond */
+let backgroundMap = {
+  "Action":           "background-action.jpg",
+  "Animation":        "background-animation.jpg",
+  "Aventure":         "background-aventure.jpg",
+  "Comédie":          "background-comedie.jpg",
+  "Documentaire":     "background-documentaire.jpg",
+  "Drame":            "background-drame.jpg",
+  "Fantaisie":        "background-fantaisie.jpg",
+  "Science-fiction":  "background-sf.jpg",
+  "Thriller":         "background-thriller.jpg",
+  "Horreur":          "backgrounf-horreur.jpg",
+};
 
 let MovieCategory = {};
 
-/**
- * Formate une catégorie avec ses films au format HTML
- * @param {string} categoryName - Nom de la catégorie
- * @param {Array} films - Liste des films de cette catégorie
- * @returns {string} HTML formaté
- */
 MovieCategory.format = function (categoryName, films) {
-  // TODO : À implémenter
-  // 1. Cloner le contenu du template
-  // 2. Remplacer {{categoryName}} par le nom de la catégorie reçu en paramètre
-  // 3. Formater la liste des films en appelant Movie.format(films)
-  // 4. Remplacer {{movies}} par le HTML formaté des films
-  // 5. Retourner le template complété
-  
   let categoryHtml = template;
-  
-  // Remplacer le nom de la catégorie
+
+  /* Fond : on cherche le fichier correspondant, sinon fond drame par défaut */
+  let bgFile = backgroundMap[categoryName] || "background-drame.jpg";
+  categoryHtml = categoryHtml.replaceAll("{{backgroundImage}}", "../server/images/" + bgFile);
   categoryHtml = categoryHtml.replaceAll("{{categoryName}}", categoryName);
-  
-  // Formater les films et les insérer dans le template
-  let moviesHtml = Movie.format(films);
+
+  /* Nombre total de films dans la catégorie (pour le bouton) */
+  categoryHtml = categoryHtml.replaceAll("{{totalCount}}", films.length);
+
+  /* Description de la catégorie — tous les films du groupe partagent la même catégorie,
+     donc on lit la description sur le premier film du tableau */
+  let description = films[0].category_description || "";
+  categoryHtml = categoryHtml.replaceAll("{{description}}", description);
+
+  /* On affiche au maximum 5 films */
+  let filmsVisibles = films.slice(0, 5);
+  let moviesHtml = Movie.format(filmsVisibles);
   categoryHtml = categoryHtml.replaceAll("{{movies}}", moviesHtml);
-  
+
+  /* Carte "+N" pour les films non affichés */
+  let restant = films.length - 5;
+  let moreCard = "";
+  if (restant > 0) {
+    moreCard = `
+      <div class="movie-card movie-card--more" onclick="C.handlerGroup('${categoryName}')">
+        <div class="movie-card__poster movie-card__poster--more">
+          <span class="movie-card__more-count">${restant}</span>
+          <p class="movie-card__more-label">Programmes<br>disponibles</p>
+        </div>
+      </div>
+    `;
+  }
+  categoryHtml = categoryHtml.replaceAll("{{moreCard}}", moreCard);
+
   return categoryHtml;
 };
 

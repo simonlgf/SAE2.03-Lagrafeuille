@@ -4,10 +4,12 @@
     <title>SAE2.03 APP</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="./css/base.css" />
     <link rel="stylesheet" href="./component/Movie/style.css" />
     <link rel="stylesheet" href="./component/MovieDetail/style.css" />
     <link rel="stylesheet" href="./component/MovieCategory/style.css" />
+    <link rel="stylesheet" href="./component/MovieGroup/style.css" />
   </head>
 
   <body>
@@ -15,9 +17,73 @@
 
     <section id="content"></section>
 
+    <!-- Modal bande-annonce -->
+    <div id="trailer-modal" class="trailer-modal" onclick="C.closeTrailer()">
+      <div class="trailer-modal__contenu" onclick="event.stopPropagation()">
+        <button class="trailer-modal__fermer" onclick="C.closeTrailer()">✕</button>
+        <iframe class="trailer-modal__video" src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer__inner">
+
+        <div class="footer__retour">
+          <button class="footer__retour-btn" onclick="window.scrollTo(0, 0)">↑ Retour haut de page</button>
+        </div>
+
+        <!-- Rangée 1 : blocs logos -->
+        <div class="footer__rangee">
+          <div class="footer__bloc">
+            <img class="footer__logo-mn" src="../server/images/MediathequeNumerique-logo.png" alt="Médiathèque Numérique">
+          </div>
+          <div class="footer__bloc">
+            <p class="footer__bloc-libelle">avec</p>
+            <div class="footer__logos">
+              <img class="footer__logo-partenaire" src="../server/images/arte.png" alt="Arte">
+              <img class="footer__logo-partenaire" src="../server/images/sooner.png" alt="Sooner">
+            </div>
+          </div>
+          <div class="footer__bloc">
+            <p class="footer__bloc-libelle">en partenariat avec</p>
+            <div class="footer__logos">
+              <img class="footer__logo-partenaire" src="../server/images/lacinetek.png" alt="La Cinetek">
+            </div>
+          </div>
+        </div>
+
+        <!-- Rangée 2 : blocs CTA -->
+        <div class="footer__rangee">
+          <div class="footer__bloc footer__bloc--cta">
+            <!-- <span class="footer__cta-icone">💼</span> -->
+            <p class="footer__cta-titre">Vous êtes professionnel ?</p>
+            <span class="footer__cta-lien">Découvrez notre service de VoD</span>
+          </div>
+          <div class="footer__bloc footer__bloc--cta">
+            <!-- <span class="footer__cta-icone">🪪</span> -->
+            <p class="footer__cta-titre">Vous êtes un adhérent ?</p>
+            <span class="footer__cta-lien">Découvrez notre service de VoD</span>
+          </div>
+        </div>
+
+        <!-- Liens légaux -->
+        <div class="footer__mentions">
+          <span class="footer__mention-lien">FAQ</span>
+          <span class="footer__mention-lien">Contactez-nous</span>
+          <span class="footer__mention-lien">Mentions légales</span>
+          <span class="footer__mention-lien">CGU</span>
+          <span class="footer__mention-lien">Politique de Confidentialité et de cookies</span>
+          <span class="footer__mention-lien">Plan du site</span>
+        </div>
+
+      </div>
+    </footer>
+
     <script type="module">
       import { NavBar } from "./component/NavBar/script.js";
       import { Movie } from "./component/Movie/script.js";
+      import { MovieCategory } from "./component/MovieCategory/script.js";
+      import { MovieGroup } from "./component/MovieGroup/script.js";
       import { DataMovie } from "./data/dataMovie.js";
       import { MovieDetail } from "./component/MovieDetail/script.js";
       import { DataProfile } from "./data/dataProfile.js";
@@ -40,13 +106,17 @@
         if (window.activeProfileId !== null && window.activeProfileId !== "") {
           for (let p of window.profiles) {
             if (String(p.id) === String(window.activeProfileId)) {
-              age = Number(p.age);
+              /* Calcul de l'âge : année actuelle - année de naissance */
+              let anneeNaissance = new Date(p.date_naissance).getFullYear();
+              let anneeActuelle  = new Date().getFullYear();
+              age = anneeActuelle - anneeNaissance;
               break;
             }
           }
         }
         let movies = await DataMovie.requestMovies(age);
         let moviesByCategory = C.groupMoviesByCategory(movies);
+        window.moviesByCategory = moviesByCategory; // conservé pour C.handlerGroup
         V.renderMoviesByCategory(moviesByCategory);
       };
 
@@ -79,7 +149,7 @@
 
         let display = document.querySelector("#active-profile");
         if (profileId === "") {
-          display.className = "navbar__active-profile";
+          display.className = "nav__active-profile";
           display.innerHTML = "";
         } else {
           let profileTrouve = null;
@@ -91,22 +161,40 @@
           if (profileTrouve) {
             let avatarHtml = "";
             if (profileTrouve.image !== "") {
-              avatarHtml = `<img class="navbar__active-profile__avatar" src="../server/images/${profileTrouve.image}" alt="${profileTrouve.name}">`;
+              avatarHtml = `<img class="nav__active-profile__avatar" src="../server/images/${profileTrouve.image}" alt="${profileTrouve.name}">`;
             } else {
-              avatarHtml = `<span class="navbar__active-profile__avatar">${profileTrouve.name.charAt(0)}</span>`;
+              avatarHtml = `<span class="nav__active-profile__avatar">${profileTrouve.name.charAt(0)}</span>`;
             }
             display.innerHTML = `${avatarHtml}${profileTrouve.name}`;
-            display.classList.add("visible");
+            display.classList.add("nav__active-profile--visible");
           }
         }
 
         C.handlerHome();
       };
 
+      /* Affiche tous les films d'une catégorie en grille */
+      C.handlerGroup = function (categoryName) {
+        let films = window.moviesByCategory[categoryName] || [];
+        V.renderMovieGroup(categoryName, films);
+      };
+
       C.handlerAbout = function () {
         alert(
           "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !"
         );
+      };
+
+      /* Ouvre le modal et charge le trailer YouTube */
+      C.openTrailer = function (url) {
+        document.querySelector('#trailer-modal .trailer-modal__video').src = url;
+        document.querySelector('#trailer-modal').style.display = 'flex';
+      };
+
+      /* Ferme le modal et vide l'iframe (arrête la vidéo) */
+      C.closeTrailer = function () {
+        document.querySelector('#trailer-modal .trailer-modal__video').src = '';
+        document.querySelector('#trailer-modal').style.display = 'none';
       };
 
       // async comme C.handlerHome — car on utilise await pour attendre les profils du serveur
@@ -143,7 +231,7 @@
         let content = document.querySelector("#content");
         
         if (!movies || movies.length === 0) {
-          content.innerHTML = "<p class='empty-message'>Aucun film disponible pour le moment.</p>";
+          content.innerHTML = "<p class='accueil__vide'>Aucun film disponible pour le moment.</p>";
           return;
         }
 
@@ -162,7 +250,7 @@
         
         // Crée un conteneur avec une grille pour afficher les films
         let html = `
-          <div class="movies-container">
+          <div class="accueil__films">
             ${moviesHtml}
           </div>
         `;
@@ -187,15 +275,7 @@
         let html = "";
         for (let category in moviesbyCat) {
           let movies = moviesbyCat[category];
-          let moviesHtml = Movie.format(movies);
-          html += `
-          <section class="category-section">
-            <h2 class="category-title">${category}</h2>
-            <div class="category-movies">
-              ${moviesHtml}
-            </div>
-          </section>
-          `;
+          html += MovieCategory.format(category, movies);
         }
         section.innerHTML = html;
       }
@@ -208,15 +288,22 @@
       // Cette fonction doit afficher les détails complets du film dans la section #content
       // Afficher : titre, affiche, description, réalisateur, année, catégorie, restrictions d'âge, et trailer
       // Le trailer doit être affiché via un iframe (https://www.youtube.com/embed/TRAILER_ID)
+      V.renderMovieGroup = function (categoryName, films) {
+        let section = document.querySelector("#content");
+        section.innerHTML = MovieGroup.format(categoryName, films);
+        window.scrollTo(0, 0);
+      };
+
       V.renderMovieDetail = function (movieDetail) {
         let section = document.querySelector("#content");
         let movieDetailHtml = MovieDetail.format(movieDetail);
         let html = `
-          <div class="movie-detail-container">
+          <div class="detail__conteneur">
             ${movieDetailHtml}
           </div>
         `;
         section.innerHTML = html;
+        window.scrollTo(0, 0); // Retour en haut de page à chaque ouverture d'un film
       };
 
       C.start(); // Démarre l'application

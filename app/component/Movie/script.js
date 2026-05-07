@@ -20,6 +20,14 @@ Movie.format = function (films, handlerClick = "") {
     // Remplace tous les placeholders en une seule passe
     filmHtml = filmHtml.replaceAll("{{title}}", film.name);
     filmHtml = filmHtml.replaceAll("{{image}}", imagePath);
+    filmHtml = filmHtml.replaceAll("{{year}}", film.year || "");
+    /* Affiche la durée en minutes si elle existe, sinon chaîne vide */
+    let duration = "";
+    if (film.length) {
+      duration = film.length + "min";
+    }
+    filmHtml = filmHtml.replaceAll("{{duration}}", duration);
+    filmHtml = filmHtml.replaceAll("{{director}}", film.director || "");
 
     // TODO ITÉRATION 3 : Ajouter l'ID du film dans le handler onclick
     // Chaque film doit être cliquable et passer son ID à la fonction C.handlerDetail(X)
